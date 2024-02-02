@@ -57,19 +57,22 @@ class TestGetJson(TestCase):
         mocked_get.assert_called_once_with(url)
         self.assertEqual(output, test_payload)
 
+
 class TestMemoize(TestCase):
-
+    """Test cases for the memoize decorator."""
     def test_memoize(self):
-
+        """Test the memoize decorator on a property by mocking a_method."""
         class TestClass:
-
-            def a_method(self):
+            """Dummy class for testing."""
+            def a_method(self) -> int:
+                """Mocked method for testing purposes."""
                 return 42
 
             @memoize
-            def a_property(self):
+            def a_property(self) -> int:
+                """Property under test using the memoize decorator."""
                 return self.a_method()
-        
+
         mocked_method = Mock()
         mocked_method.return_value = 42
         TestClass.a_method = mocked_method
