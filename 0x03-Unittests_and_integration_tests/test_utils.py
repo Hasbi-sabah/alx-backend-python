@@ -73,9 +73,11 @@ class TestMemoize(TestCase):
                 """Property under test using the memoize decorator."""
                 return self.a_method()
 
-        mocked_method = Mock()
-        mocked_method.return_value = 42
-        TestClass.a_method = mocked_method
+        with patch.object(TestClass, 'a_method') as mocked_method:
+            mocked_method.return_value = 42
+            dummy = TestClass()
+            res1 = dummy.a_property
+            res2 = dummy.a_property
 
         dummy = TestClass()
         res1 = dummy.a_property
