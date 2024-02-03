@@ -40,6 +40,7 @@ class TestGithubOrgClient(TestCase):
         mocked_get_json.return_value = test_payload
         with patch('client.GithubOrgClient._public_repos_url',
                    new_callable=PropertyMock) as mocked_property:
-            mocked_property.return_value = 1
+            mocked_property.return_value = 'za url'
             name_list = GithubOrgClient('random name').public_repos()
         self.assertEqual(['name1', 'name2'], name_list)
+        mocked_get_json.assert_called_once_with('za url')
