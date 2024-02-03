@@ -44,3 +44,13 @@ class TestGithubOrgClient(TestCase):
             name_list = GithubOrgClient('random name').public_repos()
         self.assertEqual(['name1', 'name2'], name_list)
         mocked_get_json.assert_called_once_with('za url')
+
+    @parameterized.expand([
+        ({"name": "repo1", "license": {"key": "my_license"}},
+         "my_license", True),
+        ({"name": "repo2", "license": {"key": "other_license"}},
+         "my_license", False)
+        ])
+    def test_has_license(self, repo, licence, expected):
+        """Test the has_license static method of GithubOrgClient."""
+        self.assertEqual(GithubOrgClient.has_license(repo, licence), expected)
