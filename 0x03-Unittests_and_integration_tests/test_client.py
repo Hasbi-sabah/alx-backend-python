@@ -68,11 +68,13 @@ class TestIntegrationGithubOrgClient(TestCase):
         def side(url):
             """Side effect function for requests.get mock."""
             repo = []
+            mock_response = Mock()
             for payload in TEST_PAYLOAD:
                 if url == payload[0]["repos_url"]:
                     repo = payload[1]
                     break
-            return Mock({'json.return_value': repo})
+            mock_response.json.return_value = repo
+            return mock_response
         cls.get_patcher = patch('requests.get', side_effect=side)
         cls.get_patcher.start()
 
